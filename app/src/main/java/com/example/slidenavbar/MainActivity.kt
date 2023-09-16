@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
 import com.example.slidenavbar.databinding.ActivityMainBinding
 
 
@@ -26,12 +27,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.navView.setNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.home -> Toast.makeText(this , "Home Is Clicked" , Toast.LENGTH_LONG).show()
-                R.id.message -> Toast.makeText(this , "Message Is Clicked" , Toast.LENGTH_LONG).show()
-                R.id.sync -> Toast.makeText(this , "Sync Is Clicked" , Toast.LENGTH_LONG).show()
-                R.id.delete -> Toast.makeText(this , "Delete Is Clicked" , Toast.LENGTH_LONG).show()
-                R.id.settings -> Toast.makeText(this , "Settings Is Clicked" , Toast.LENGTH_LONG).show()
-                R.id.login -> Toast.makeText(this , "Login Is Clicked" , Toast.LENGTH_LONG).show()
+                R.id.home -> replaceFragment(HomeFragment() , "Home")
+                R.id.message -> replaceFragment(MessageFragment() , "Message")
+                R.id.sync -> replaceFragment(SyncFragment() , "Sync")
+                R.id.delete -> replaceFragment(DeleteFragment() , "Delete")
+                R.id.settings -> replaceFragment(SettingsFragment() , "Settings")
+                R.id.login -> replaceFragment(LoginFragment() , "Login")
             }
 
             true
@@ -50,6 +51,16 @@ class MainActivity : AppCompatActivity() {
 
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun replaceFragment(fragment : Fragment, title : String){
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout , fragment)
+        fragmentTransaction.commit()
+        binding.drawerLayout.closeDrawers()
+        setTitle(title)
+
     }
 
 
